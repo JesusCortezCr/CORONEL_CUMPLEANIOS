@@ -12,7 +12,7 @@
   --gold-light: #D4AF37;
   --gold-pale: #E8C96A;
   --gold-dim: #8A6A20;
-  --bg-main: #F4F1EA; /* Fondo claro */
+  --bg-main: #e8feff; /* Fondo claro */
   --card-bg-1: #FFFFFF;
   --card-bg-2: #FAFAFA;
   --card-bg-3: #F0F0F0;
@@ -24,19 +24,29 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  width: 100%; height: 100%;
+  width: 100%; 
+  /* Eliminamos height: 100% para evitar restricciones de scroll */
   overflow-x: hidden;
   background: var(--bg-main);
 }
-
 body {
   font-family: 'Cormorant Garamond', serif;
-  min-height: 100vh;
+  min-height: 100vh; /* Fallback para navegadores antiguos */
+  min-height: 100dvh; /* Se adapta dinámicamente a la barra del navegador móvil */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  flex-direction: column;
+  padding: 40px 20px; /* Le damos más respiro arriba y abajo */
   position: relative;
+}
+
+.scene {
+  perspective: 1400px;
+  z-index: 10;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: auto; /* CLAVE: Esto evita que flexbox corte el contenido superior si la tarjeta es muy alta */
 }
 
 /* ─── STARFIELD CANVAS (Ahora partículas doradas) ─── */
@@ -236,7 +246,7 @@ body {
 
 .rank-title {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 11px;
+  font-size: 15px;
   letter-spacing: 0.35em;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -581,18 +591,24 @@ body {
    RESPONSIVE DESIGN (MÓVILES)
 ═══════════════════════════════════════ */
 @media (max-width: 600px) {
-  .card-body { padding: 24px 28px 20px; }
-  .header-band { padding: 18px 28px 14px; }
-  .footer-strip { padding: 12px 28px; }
-  .invite-badge { padding: 18px 20px; }
-  .cta-btn { padding: 12px 28px; font-size: 10px; }
+  .card-body { padding: 24px 20px 20px; }
+  .header-band { padding: 18px 20px 14px; }
+  .footer-strip { padding: 12px 20px; }
+  .invite-badge { padding: 18px 15px; }
+  .cta-btn { padding: 12px 24px; font-size: 10px; }
   
   .card::before, .card::after,
   .corner-tr, .corner-bl { width: 24px; height: 24px; }
-  .inner-border { inset: 18px; }
+  .inner-border { inset: 15px; }
   
   .quote-text { font-size: 15px; }
-  .portrait-wrap { width: 180px; height: 180px; margin-bottom: 15px; }
+  
+  /* IMAGEN MÁS GRANDE EN MÓVILES */
+  .portrait-wrap { 
+    width: 230px;  /* Antes estaba en 180px */
+    height: 230px; /* Antes estaba en 180px */
+    margin-bottom: 20px; 
+  }
 }
 
 @media (max-width: 450px) {
@@ -666,6 +682,7 @@ body {
         <p class="quote-text">
           HOY NO SOLO CELEBRAS UN AÑO MÁS, CELEBRAS TODO LO QUE HAS VIVIDO, TODO LO QUE HAS SUPERADO Y TODO LO HERMOSO QUE AÚN TE QUEDA POR VIVIR.
         </p>
+        <span class="whiskey-icon">🍾</span>
       </div>
 
       <div class="divider">
